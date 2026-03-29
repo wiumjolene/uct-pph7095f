@@ -1,0 +1,152 @@
+---
+title: "Biostatistics Assignment"
+author: "Jolene Wium"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    code-fold: false
+    theme: cosmo
+    df-print: paged
+execute:
+  echo: false
+  warning: false
+  message: false
+  freeze: false
+jupyter: python3
+editor: visual
+---
+
+```{python}
+#| include: false
+
+import os
+import sys
+import importlib
+import math
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+
+pd.set_option("display.max_columns", 50)
+pd.set_option("display.float_format", lambda x: f"{x:,.2f}")
+
+sys.path.append(os.path.abspath("../code"))
+
+import analysis
+importlib.reload(analysis)
+```
+
+
+## Part 1: Descriptive data analysis
+### Question 1
+
+```{python}
+#| label: tbl-table1
+#| tbl-cap: "Baseline characteristics of individuals (first observation per individual), stratified by sex."
+
+df = analysis.load_data()
+table1 = analysis.table1_descriptive(df)
+table1.style.set_properties(
+    subset=["Variable"],
+    **{"text-align": "left"}
+).hide(axis="index")
+```
+
+### Question 2
+
+```{python}
+#| label: fig-mean-profile
+#| fig-cap: "Mean longitudinal profile of satisfaction by household workload."
+
+# df = analysis.load_data()
+analysis.plot_mean_profile(df)
+
+```
+
+
+### Question 3
+Make sure you mention:
+
+✔ “individual trajectories”
+✔ “within-subject variability”
+✔ “between-subject variability”
+✔ “correlation of repeated measures”
+✔ whether group differences are obvious or not
+
+```{python}
+#| label: fig-spaghetti
+#| fig-cap: "Spaghetti Plot of Satisfaction by Premarital Cohabitation."
+
+# df = analysis.load_data()
+analysis.plot_spaghetti(df)
+
+```
+
+
+## Part 2: Generalized estimating equations (GEEs)
+### Question 4
+```{python}
+#| label: tbl-table2
+#| tbl-cap: "Comparing covariance matrixes for GEE models."
+
+
+table2 = analysis.table2_gee(df)
+table2.style.set_properties(
+    subset=["Model"],
+    **{"text-align": "left"}
+).hide(axis="index")
+```
+
+### Question 5
+
+
+### Question 6
+*Based on your final GEE model (from Q5), fully interpret the effects of the following predictors
+on marital satisfaction. For each, provide the estimated coefficient, 95% CI, and an
+interpretation:
+* Time
+* Premarital cohabitation
+* Household workload*
+
+
+## Part 3: Linear mixed effects (LME) model 
+*Fit an LME model to assess the association between marital satisfaction and time, including all
+covariates (do not include statistical interactions terms). Fit two models with different
+random-effects structures:
+1. LME 1: Random intercepts only
+2. LME 2: Random intercepts and random linear slopes for time*
+
+
+### Question 7
+```{python}
+#| label: tbl-table3
+#| tbl-cap: "Comparing covariance matrixes for LME models."
+
+table3 = analysis.table3_lme(df)
+table3.style.set_properties(
+    subset=["Model"],
+    **{"text-align": "left"}
+).hide(axis="index")
+```
+
+
+### Question 8
+*Determine the most appropriate random-effects structure and justify your choice. State which
+LME (LME 1 or LME 2) is your final model.*
+
+
+
+### Question 9
+*Compare the estimated effects of the following predictors between your final GEE model (Q5)
+and your final LME model (Q8):
+- Time
+- Premarital cohabitation
+- Household workload*
+
+
+## Part 4: Model validation
+### Question 10
