@@ -1,0 +1,253 @@
+---
+title: "Biostatistics Assignment"
+author: "Jolene Wium"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    number-sections: false
+    code-fold: false
+    theme: cosmo
+    df-print: paged
+    css: styles.css
+  # pdf:
+  #   toc: true
+  #   toc-depth: 3
+  #   number-sections: true
+  #   keep-tex: false
+  #   fig-width: 7
+  #   fig-height: 4.5
+  #   geometry:
+  #     - margin=1in
+execute:
+  echo: false
+  warning: false
+  message: false
+  freeze: false
+jupyter: python3
+editor: visual
+---
+
+```{python}
+#| include: false
+
+import os
+import sys
+import importlib
+import math
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+
+pd.set_option("display.max_columns", 50)
+pd.set_option("display.float_format", lambda x: f"{x:,.2f}")
+
+sys.path.append(os.path.abspath("../code"))
+
+import analysis
+importlib.reload(analysis)
+```
+
+## Part 1: Descriptive data analysis
+
+### Question 1
+
+> Present and discuss a single table (Table 1) summarizing the baseline characteristics of the individuals (first observation per individual). Stratify the table by sex.
+
+@tbl-table1 presents the baseline characteristics of the individuals in the dataset, stratified by sex. Males are on average 2.2 years older than females when first getting amarried. Females in the study population earned on average more than males. The majority of both sexes cohobted before marriage (both \> 85%). Females reported higher household workloads than males, with males taking on only 6.2% of the household workload on average, compared to 62.1% for females.
+
+```{python}
+#| label: tbl-table1
+#| tbl-cap: "Baseline characteristics stratified by sex."
+
+df = analysis.load_data()
+table1 = analysis.table1_descriptive(df)
+table1.style.set_properties(
+    subset=["Variable"],
+    **{"text-align": "left"}
+).hide(axis="index")
+```
+
+*Note:* Continuous variables are presented as *mean (SD)*; categorical variables as *n (%)*.
+
+### Question 2
+
+> Present and interpret a mean longitudinal profile of satisfaction measurements by household workload (Figure 1).
+
+@fig-mean-profile depicts the mean longitudinal profile of satisfaction measurements by household workload. The plot shows that individuals with higher household workloads tend to have lower marital satisfaction over time, while those with lower household workloads tend to have higher marital satisfaction. This suggests a potential negative association between household workload and marital satisfaction, which may warrant further investigation.
+
+```{python}
+#| label: fig-mean-profile
+#| fig-cap: "Mean longitudinal profile of satisfaction by household workload."
+
+# df = analysis.load_data()
+analysis.plot_mean_profile(df)
+
+```
+
+### Question 3
+
+> Present and interpret a spaghetti plot of satisfaction measurements by premarital cohabitation (Figure 2).
+
+@fig-spaghetti shows the marital satisfaction score over time for each individual over time. The left hand graph depics satisfaction of individuals that chose not to cohabitate with their partners before getting married. The right hand shows those that did co-habitate before getting married.
+
+In general, both groups show a clear downward trajectory over time with significant indivudual variation. The overall patterns appear similar across cohabitation groups.
+
+```{python}
+#| label: fig-spaghetti
+#| fig-cap: "Spaghetti Plot of Satisfaction by Premarital Cohabitation."
+
+# df = analysis.load_data()
+analysis.plot_spaghetti(df)
+
+```
+
+## Part 2: Generalized estimating equations (GEEs)
+
+> Fit an appropriate GEE to examine the association between marital satisfaction and time, including all covariates (do not include statistical interactions terms). Fit two models using different correlation structures:
+>
+> 1.  GEE 1: First-order autoregressive structure (AR1)
+> 2.  GEE 2: Unstructured correlation matrix\*
+
+::: callout-caution
+Think about 
+
+Observation time - unbalanced vs balanced data, number of time points, and the number of parameters to be estimated in the correlation matrix when choosing the working correlation structure.
+
+Moet ek obs time normaliseer? Is dit nodig dat almal by tydpunt 0 begin?
+:::
+
+### Question 4
+
+> Present a single table (Table 2) with coefficient estimates, standard errors, and 95% confidence intervals (CI) for both GEE models. Use robust (sandwich) standard errors throughout
+
+::: callout-caution
+@tbl-gee presents the estimated associations between marital satisfaction and time and covariates from two GEE models with different working correlation structures.
+
+There is evidence that marital satisfaction decreases over time, as indicated by the negative coefficient for time in the AR(1) model. This suggests that, on average, satisfaction declines with increasing follow-up time. However, the estimate from the unstructured model is less precise and includes the null, indicating some sensitivity to the choice of working correlation structure.
+
+Sex is associated with satisfaction, with males reporting lower satisfaction than females in the AR(1) model. This effect is less consistent in the unstructured model, where the confidence interval includes zero.
+
+Household workload is negatively associated with satisfaction, with higher workload associated with lower satisfaction in the AR(1) model. This effect is less precise in the unstructured model.
+
+There is no strong evidence of association between satisfaction and age at marriage, premarital cohabitation, or income, as the confidence intervals for these variables include zero in both models.
+
+Overall, the estimates are broadly similar across the two models, although some differences in precision and statistical significance are observed, suggesting that the results are reasonably robust but somewhat sensitive to the assumed correlation structure.
+:::
+
+```{python}
+#| label: tbl-gee
+#| tbl-cap: GEE model estimates with robust standard errors and 95% confidence intervals.
+
+table2 = analysis.question2_pretty(df)
+table2.style.set_properties(
+    subset=["Variable"],
+    **{"text-align": "left", "font-weight": "bold"}
+).hide(axis="index")
+```
+
+### Question 5
+
+> Determine the most appropriate correlation structure and justify your choice. State which GEE (GEE 1 or GEE 2) you will use as your final model.
+
+::: callout-caution
+The AR(1) correlation structure was judged to be the most appropriate. It is conceptually suitable for longitudinal data because it assumes that correlations decrease as observations become further apart in time. Empirically, the AR(1) model produced more stable coefficient estimates and narrower confidence intervals than the unstructured model, whereas the unstructured model showed less precision and greater instability, likely due to the need to estimate many correlation parameters in an unbalanced dataset. Therefore, the AR(1) structure was preferred.
+:::
+
+### Question 6
+
+> Based on your final GEE model (from Q5), fully interpret the effects of the following predictors on marital satisfaction. For each, provide the estimated coefficient, 95% CI, and an interpretation:
+>
+> - Time
+> - Premarital cohabitation
+> - Household workload
+
+::: callout-caution
+**Time**
+
+The estimated coefficient for time is −0.009 (95% CI: −0.009 to −0.008). This indicates that, on average, marital satisfaction decreases over time, with a small but consistent decline per unit increase in time. The confidence interval does not include zero, providing strong evidence of a negative association between time and satisfaction.
+
+**Premarital cohabitation**
+
+The estimated coefficient for premarital cohabitation is 0.260 (95% CI: −0.060 to 0.580). This suggests that individuals who cohabited before marriage have, on average, slightly higher marital satisfaction compared to those who did not. However, the confidence interval includes zero, indicating no strong evidence of an association between premarital cohabitation and satisfaction.
+
+**Household workload**
+
+The estimated coefficient for household workload is −0.470 (95% CI: −0.752 to −0.189). This indicates that higher household workload is associated with lower marital satisfaction, with individuals experiencing greater workload reporting, on average, lower satisfaction scores. The confidence interval does not include zero, providing evidence of a negative association.
+:::
+
+## Part 3: Linear mixed effects (LME) model
+
+> Fit an LME model to assess the association between marital satisfaction and time, including all covariates (do not include statistical interactions terms). Fit two models with different random-effects structures:
+>
+> 1.  LME 1: Random intercepts only
+> 2.  LME 2: Random intercepts and random linear slopes for time
+
+This section used `statsmodels` version 0.14.6 package in a Python environment (version 3.13.1). The LME models were fitted using the `MixedLM` function, using maximum likelihood estimation.
+
+### Question 7
+
+> Present a single table (Table 3) with fixed-effect coefficient estimates, 95% confidence intervals, and relevant model comparison metrics for both LME models (LME 1 and LME 2). Present only the fixed effects - do not include the random-effects variance components in the table.
+
+@tbl-table3 provides a comparison of the fixed-effect coefficient estimates, 95% confidence intervals, and model comparison metrics for two LME models with different random-effects structures. LME 1 includes only random intercepts, while LME 2 includes both random intercepts and random slopes for time, allowing for individual variation in both baseline satisfaction and the rate of change in satisfaction over time. Model fit statistcs are provided at the bottom of the table for each model. 
+
+Overall, Log-likelihood, AIC and BIC indicate lower values for LME 2 than LME 1.
+
+```{python}
+#| label: tbl-table3
+#| tbl-cap: "Comparing covariance matrixes for LME models."
+
+table3 = analysis.question3_pretty(df)
+table3.style.set_properties(
+    subset=["Variable"],
+    **{"text-align": "left", "font-weight": "bold"}
+).hide(axis="index")
+```
+
+```{python}
+#| results: asis
+analysis.lme_fit_stats_text(df)
+```
+
+### Question 8
+
+> Determine the most appropriate random-effects structure and justify your choice. State which LME (LME 1 or LME 2) is your final model.
+
+
+LME 2 is a nested version of LME 1, adding random slopes for time. 
+Fixed effect estimates are similar in both models, indicating consistency across models.
+However, LME 2 has higher log-likelihood and lower AIC and BIC values than LME 1, indicating a better fit to the data.
+The random slope variance in LME 2 is non-zero, suggesting meaningful between-individual variation in time trends that is not captured by random intercepts alone.
+This relates to the spagetti plot (@fig-spaghetti) which showed clear individual variation in trajectories over time, supporting the need for random slopes.
+
+
+### Question 9
+
+> Compare the estimated effects of the following predictors between your final GEE model (Q5) and your final LME model (Q8):
+>
+> - Time
+> - Premarital cohabitation
+> - Household workload
+
+## Part 4: Model validation
+
+### Question 10
+
+> Present two residual diagnostic plots for your final LME model (Figures 3 and 4). One plot should depict the residuals, while the other plot should be related to the random effects. Do these plots look reasonable? Briefly discuss in two to three sentences whether the model assumptions appear to be satisfied.
+
+```{python}
+#| label: fig-residuals
+#| fig-cap: "Residuals Plot for Final LME Model."
+
+lme1, lme2 = analysis.fit_lme_models(df)
+analysis.plot_residuals(lme2)
+```
+
+```{python}
+#| label: fig-qqplot
+#| fig-cap: "QQ Plot of Residuals for Final LME Model."
+
+analysis.plot_random_effects(lme2)
+```

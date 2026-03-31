@@ -1,10 +1,12 @@
 import os
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-
+import scipy.stats as stats
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
+from IPython.display import Markdown, display
 from statsmodels.genmod.cov_struct import Autoregressive, Unstructured
 from statsmodels.genmod.families import Gaussian
 
@@ -83,7 +85,7 @@ def add_categorical_block(table_rows, df, var, block_name, by="sex"):
 
     # Category rows
     for level in cat_summary.index:
-        row = {"Variable": f"  {level}"}
+        row = {"Variable": f" > {level}"}
         for col in cat_summary.columns:
             row[str(col)] = cat_summary.loc[level, col]
         table_rows.append(row)
@@ -112,7 +114,7 @@ def table1_descriptive(df):
 
     for label, var in continuous_vars:
         summary = summarize_cont(df_baseline, var)
-        row = {"Variable": label}
+        row = {"Variable": f"{label} (mean (SD))"}
         for sex in sex_levels:
             row[str(sex)] = summary.get(sex, "")
         table1_rows.append(row)
@@ -184,6 +186,7 @@ def plot_mean_profile(df, n_bins=20):
 # -----------------------------
 def plot_spaghetti(df):
 
+    plt.style.use("seaborn-v0_8")
     ids = df["id"].unique()
     plot_df = df[df["id"].isin(ids)].copy()
 
@@ -210,20 +213,15 @@ def plot_spaghetti(df):
     plt.tight_layout()
 
 
-
 # ###########################################################################
 # PART 2: Generalized estimating equations (GEEs)
 # ###########################################################################
 def fit_gee_models(df):
     dat = df.dropna().copy()
-
     dat = dat.sort_values(["id", "obs_time"]).reset_index(drop=True)
 
-    # visit order within person
-    dat["time_index"] = dat.groupby("id").cumcount().astype(int)
-
     formula = (
-        "satisfaction ~ time_index + sex + age_marriage + "
+        "satisfaction ~ obs_time + sex + age_marriage + "
         "cohab + income + hw_all"
     )
 
@@ -231,71 +229,78 @@ def fit_gee_models(df):
     gee_ar1 = smf.gee(
         formula=formula,
         groups="id",
-        time="time_index",
+        time="obs_time",
         data=dat,
         family=Gaussian(),
         cov_struct=Autoregressive(grid=True),
     ).fit()
 
     # Unstructured: restricted visits
-    dat_un = dat[dat["time_index"] <= 3].copy()
-
+    dat_un = dat[dat["obs_time"] <= 3].copy()
     gee_un = smf.gee(
         formula=formula,
         groups="id",
-        time="time_index",
+        time="obs_time",
         data=dat_un,
         family=Gaussian(),
-        cov_struct=Unstructured(),
+        cov_struct=Unstructured(), # The time argument must be of integer dtype, and indicates which position in a complete data vector is occupied by each observed value.
     ).fit()
 
     return gee_ar1, gee_un
 
 
-def tidy_gee(result, model_name):
-    """Extract coefficients, SE, and 95% CI from a fitted GEE model."""
-
-    params = result.params
-    se = result.bse
-    ci = result.conf_int()
-
-    out = pd.DataFrame({
-        "Variable": params.index,
-        "Estimate": params.values,
-        "SE": se.values,
-        "CI Lower": ci[0].values,
-        "CI Upper": ci[1].values,
+def format_model(result):
+    df_out = pd.DataFrame({
+        "Variable": result.params.index,
+        "Estimate (SE)": [
+            f"{est:.3f} ({se:.3f})"
+            for est, se in zip(result.params, result.bse)
+        ],
+        "95% CI": [
+            f"{l:.3f} to {u:.3f}"
+            for l, u in result.conf_int().values
+        ],
     })
-
-    # Format nicely
-    out["Estimate"] = out["Estimate"].round(3)
-    out["SE"] = out["SE"].round(3)
-    out["95% CI"] = (
-        out["CI Lower"].round(3).astype(str)
-        + " to "
-        + out["CI Upper"].round(3).astype(str)
-    )
-
-    out = out.drop(columns=["CI Lower", "CI Upper"])
-    out["Model"] = model_name
-
-    return out
+    return df_out.set_index("Variable")
 
 
-def table2_gee(df):
+def question2_pretty(df):
     gee_ar1, gee_un = fit_gee_models(df)
 
-    t1 = tidy_gee(gee_ar1, "GEE 1: AR(1)")
-    t2 = tidy_gee(gee_un, "GEE 2: Unstructured")
+    ar1 = format_model(gee_ar1)
+    un = format_model(gee_un)
 
-    table2 = pd.concat([t1, t2], ignore_index=True)
+    # Rename inner columns
+    ar1.columns = ["Estimate (SE)", "95% CI"]
+    un.columns = ["Estimate (SE)", "95% CI"]
 
-    # Optional: nicer ordering
-    table2 = table2[
-        ["Model", "Variable", "Estimate", "SE", "95% CI"]
-    ]
+    # Create MultiIndex columns
+    ar1.columns = pd.MultiIndex.from_product(
+        [["AR(1)"], ar1.columns]
+    )
+    un.columns = pd.MultiIndex.from_product(
+        [["Unstructured"], un.columns]
+    )
 
-    return table2
+    table = pd.concat([ar1, un], axis=1)
+
+    # Reset index to bring Variable back
+    table = table.reset_index()
+
+    # Rename variables
+    rename_map = {
+        "Intercept": "Intercept",
+        "sex[T.male]": "Male (vs Female)",
+        "obs_time": "Time",
+        "age_marriage": "Age at marriage",
+        "cohab": "Premarital cohabitation",
+        "income": "Income",
+        "hw_all": "Household workload",
+    }
+
+    table["Variable"] = table["Variable"].replace(rename_map)
+
+    return table
 
 
 # ###########################################################################
@@ -318,10 +323,10 @@ def fit_lme_models(df):
     dat = dat.sort_values(["id", "obs_time"]).reset_index(drop=True)
 
     # Use within-person time index
-    dat["time_index"] = dat.groupby("id").cumcount().astype(int)
+    dat["obs_time"] = dat.groupby("id").cumcount().astype(int)
 
     formula = (
-        "satisfaction ~ time_index + sex + age_marriage + "
+        "satisfaction ~ obs_time + sex + age_marriage + "
         "cohab + income + hw_all"
     )
 
@@ -330,58 +335,148 @@ def fit_lme_models(df):
         formula=formula,
         data=dat,
         groups=dat["id"],   # random intercept
-    ).fit()
+    ).fit(reml=False)
 
     # LME 2: Random intercept + random slope for time
     lme2 = smf.mixedlm(
         formula=formula,
         data=dat,
         groups=dat["id"],
-        re_formula="~time_index",  # adds random slope
-    ).fit()
+        re_formula="~obs_time",  # adds random slope
+    ).fit(reml=False)
 
     return lme1, lme2
 
 
-def tidy_lme(result, model_name):
-    params = result.params
-    se = result.bse
-    ci = result.conf_int()
+def format_lme_fixed(result):
+    """Return fixed effects only from an LME model."""
+    fe_params = result.fe_params
+    fe_se = result.bse_fe
+    fe_ci = result.conf_int().loc[fe_params.index]
 
-    out = pd.DataFrame({
-        "Variable": params.index,
-        "Estimate": params.values,
-        "SE": se.values,
-        "CI Lower": ci[0].values,
-        "CI Upper": ci[1].values,
+    df_out = pd.DataFrame({
+        "Variable": fe_params.index,
+        "Estimate (SE)": [
+            f"{est:.3f} ({se:.3f})"
+            for est, se in zip(fe_params, fe_se)
+        ],
+        "95% CI": [
+            f"{l:.3f} to {u:.3f}"
+            for l, u in fe_ci.values
+        ],
     })
-
-    out["Estimate"] = out["Estimate"].round(3)
-    out["SE"] = out["SE"].round(3)
-    out["95% CI"] = (
-        out["CI Lower"].round(3).astype(str)
-        + " to "
-        + out["CI Upper"].round(3).astype(str)
-    )
-
-    out = out.drop(columns=["CI Lower", "CI Upper"])
-    out["Model"] = model_name
-
-    return out
+    return df_out.set_index("Variable")
 
 
-def table3_lme(df):
+def question3_pretty(df):
     lme1, lme2 = fit_lme_models(df)
 
-    t1 = tidy_lme(lme1, "LME 1: Random intercept")
-    t2 = tidy_lme(lme2, "LME 2: Random intercept + slope")
+    t1 = format_lme_fixed(lme1)
+    t2 = format_lme_fixed(lme2)
 
-    table = pd.concat([t1, t2], ignore_index=True)
+    t1.columns = ["Estimate (SE)", "95% CI"]
+    t2.columns = ["Estimate (SE)", "95% CI"]
 
-    table = table[
-        ["Model", "Variable", "Estimate", "SE", "95% CI"]
-    ]
+    t1.columns = pd.MultiIndex.from_product(
+        [["LME 1: Random intercept"], t1.columns]
+    )
+    t2.columns = pd.MultiIndex.from_product(
+        [["LME 2: Random intercept + slope"], t2.columns]
+    )
+
+    table = pd.concat([t1, t2], axis=1).reset_index()
+
+    rename_map = {
+        "Intercept": "Intercept",
+        "sex[T.male]": "Male (vs Female)",
+        "time_index": "Time",
+        "obs_time": "Time",
+        "age_marriage": "Age at marriage",
+        "cohab": "Premarital cohabitation",
+        "income": "Income",
+        "hw_all": "Household workload",
+    }
+
+    table["Variable"] = table["Variable"].replace(rename_map)
+
+    # fit_rows = pd.DataFrame({
+    #     ("Variable", ""): ["AIC", "BIC", "Log-likelihood"],
+    #     ("LME 1: Random intercept", "Estimate (SE)"): [
+    #         f"{lme1.aic:.2f}",
+    #         f"{lme1.bic:.2f}",
+    #         f"{lme1.llf:.2f}",
+    #     ],
+    #     ("LME 1: Random intercept", "95% CI"): ["", "", ""],
+    #     ("LME 2: Random intercept + slope", "Estimate (SE)"): [
+    #         f"{lme2.aic:.2f}",
+    #         f"{lme2.bic:.2f}",
+    #         f"{lme2.llf:.2f}",
+    #     ],
+    #     ("LME 2: Random intercept + slope", "95% CI"): ["", "", ""],
+    # })
+
+    # table.columns = pd.MultiIndex.from_tuples(table.columns)
+    # table = pd.concat([table, fit_rows], ignore_index=True)
 
     return table
 
 
+def lme_fit_stats_text(df):
+    lme1, lme2 = fit_lme_models(df)
+    return display(Markdown(
+    f"""
+*Note:* Fixed effects are presented as estimate (SE) with 95% confidence intervals.  
+*Model fit statistics:*  
+> LME 1 AIC: {lme1.aic:.2f}, BIC: {lme1.bic:.2f}, Log-likelihood: {lme1.llf:.2f};  
+> LME 2 AIC: {lme2.aic:.2f}, BIC: {lme2.bic:.2f}, Log-likelihood: {lme2.llf:.2f}.
+"""
+))
+
+
+# ###########################################################################
+# PART 4: Model validation
+# ###########################################################################
+def plot_residuals(model):
+    fitted = model.fittedvalues
+    residuals = model.resid
+
+    plt.style.use("seaborn-v0_8")
+    plt.figure(figsize=(6, 4))
+    plt.scatter(fitted, residuals, alpha=0.5)
+
+    plt.axhline(0, linestyle="--")
+
+    plt.xlabel("Fitted values")
+    plt.ylabel("Residuals")
+    plt.title("Figure 3: Residuals vs Fitted Values")
+
+    plt.tight_layout()
+
+
+def plot_random_effects(model):
+    # Extract random intercepts
+    re = pd.DataFrame(model.random_effects).T
+
+    # If random slope model → intercept is first column
+    intercepts = re.iloc[:, 0]
+
+    # plt.style.use("seaborn-v0_8")
+    # plt.figure(figsize=(6, 4))
+    # stats.probplot(intercepts, dist="norm", plot=plt)
+
+    # plt.title("Figure 4: QQ Plot of Random Intercepts")
+
+
+
+    fig = plt.figure(figsize=(6, 4))
+    ax = fig.add_subplot(111)
+
+    res = stats.probplot(intercepts, dist="norm", plot=ax)
+
+    # Change colors
+    ax.get_lines()[0].set_color("teal")   # data points
+    ax.get_lines()[1].set_color("black")  # reference line
+
+    ax.set_title("Figure 4: QQ Plot of Random Intercepts")
+
+    plt.tight_layout()

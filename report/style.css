@@ -1,0 +1,9 @@
+/* Table captions */
+table caption {
+  text-align: left !important;
+}
+
+/* Figure captions */
+.figure-caption {
+  text-align: left !important;
+}

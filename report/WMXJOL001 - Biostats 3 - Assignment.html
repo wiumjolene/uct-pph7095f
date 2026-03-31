@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jolene Wium">
-<meta name="dcterms.date" content="2026-03-29">
+<meta name="dcterms.date" content="2026-03-31">
 
 <title>Biostatistics Assignment</title>
 <style>
@@ -44,6 +44,7 @@ ul.task-list li input[type="checkbox"] {
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="quarto-light">
@@ -55,22 +56,26 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#part-1-descriptive-data-analysis" id="toc-part-1-descriptive-data-analysis" class="nav-link active" data-scroll-target="#part-1-descriptive-data-analysis">Part 1: Descriptive data analysis</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question 1</a></li>
   <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
   <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
   </ul></li>
   <li><a href="#part-2-generalized-estimating-equations-gees" id="toc-part-2-generalized-estimating-equations-gees" class="nav-link" data-scroll-target="#part-2-generalized-estimating-equations-gees">Part 2: Generalized estimating equations (GEEs)</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#question-4" id="toc-question-4" class="nav-link" data-scroll-target="#question-4">Question 4</a></li>
   <li><a href="#question-5" id="toc-question-5" class="nav-link" data-scroll-target="#question-5">Question 5</a></li>
   <li><a href="#question-6" id="toc-question-6" class="nav-link" data-scroll-target="#question-6">Question 6</a></li>
   </ul></li>
   <li><a href="#part-3-linear-mixed-effects-lme-model" id="toc-part-3-linear-mixed-effects-lme-model" class="nav-link" data-scroll-target="#part-3-linear-mixed-effects-lme-model">Part 3: Linear mixed effects (LME) model</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#question-7" id="toc-question-7" class="nav-link" data-scroll-target="#question-7">Question 7</a></li>
   <li><a href="#question-8" id="toc-question-8" class="nav-link" data-scroll-target="#question-8">Question 8</a></li>
   <li><a href="#question-9" id="toc-question-9" class="nav-link" data-scroll-target="#question-9">Question 9</a></li>
+  </ul></li>
+  <li><a href="#part-4-model-validation" id="toc-part-4-model-validation" class="nav-link" data-scroll-target="#part-4-model-validation">Part 4: Model validation</a>
+  <ul>
+  <li><a href="#question-10" id="toc-question-10" class="nav-link" data-scroll-target="#question-10">Question 10</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -96,7 +101,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 29, 2026</p>
+      <p class="date">March 31, 2026</p>
     </div>
   </div>
   
@@ -112,68 +117,72 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="part-1-descriptive-data-analysis">Part 1: Descriptive data analysis</h2>
 <section id="question-1" class="level3">
 <h3 class="anchored" data-anchor-id="question-1">Question 1</h3>
+<blockquote class="blockquote">
+<p>Present and discuss a single table (Table 1) summarizing the baseline characteristics of the individuals (first observation per individual). Stratify the table by sex.</p>
+</blockquote>
+<p><a href="#tbl-table1" class="quarto-xref">Table&nbsp;1</a> presents the baseline characteristics of the individuals in the dataset, stratified by sex. Males are on average 2.2 years older than females when first getting amarried. Females in the study population earned on average more than males. The majority of both sexes cohobted before marriage (both &gt; 85%). Females reported higher household workloads than males, with males taking on only 6.2% of the household workload on average, compared to 62.1% for females.</p>
 <div class="cell" data-execution_count="2">
 <div id="tbl-table1" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="2">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-table1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Baseline characteristics of individuals (first observation per individual), stratified by sex.
+Table&nbsp;1: Baseline characteristics stratified by sex.
 </figcaption>
 <div aria-describedby="tbl-table1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="38">
 <style type="text/css">
-#T_e1715_row0_col0, #T_e1715_row1_col0, #T_e1715_row2_col0, #T_e1715_row3_col0, #T_e1715_row4_col0, #T_e1715_row5_col0, #T_e1715_row6_col0, #T_e1715_row7_col0 {
+#T_96370_row0_col0, #T_96370_row1_col0, #T_96370_row2_col0, #T_96370_row3_col0, #T_96370_row4_col0, #T_96370_row5_col0, #T_96370_row6_col0, #T_96370_row7_col0 {
   text-align: left;
 }
 </style>
 
-<table id="T_e1715" class="cell caption-top table table-sm table-striped small">
+<table id="T_96370" class="cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_e1715_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Variable</th>
-<th id="T_e1715_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">female</th>
-<th id="T_e1715_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">male</th>
+<th id="T_96370_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Variable</th>
+<th id="T_96370_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">female</th>
+<th id="T_96370_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">male</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_e1715_row0_col0" class="data row0 col0">Age at marriage</td>
-<td id="T_e1715_row0_col1" class="data row0 col1">27.31 (4.70)</td>
-<td id="T_e1715_row0_col2" class="data row0 col2">29.59 (4.85)</td>
+<td id="T_96370_row0_col0" class="data row0 col0">Age at marriage (mean (SD))</td>
+<td id="T_96370_row0_col1" class="data row0 col1">27.31 (4.70)</td>
+<td id="T_96370_row0_col2" class="data row0 col2">29.59 (4.85)</td>
 </tr>
 <tr class="even">
-<td id="T_e1715_row1_col0" class="data row1 col0">Income</td>
-<td id="T_e1715_row1_col1" class="data row1 col1">32502.84 (18539.35)</td>
-<td id="T_e1715_row1_col2" class="data row1 col2">30976.49 (16881.02)</td>
+<td id="T_96370_row1_col0" class="data row1 col0">Income (mean (SD))</td>
+<td id="T_96370_row1_col1" class="data row1 col1">32502.84 (18539.35)</td>
+<td id="T_96370_row1_col2" class="data row1 col2">30976.49 (16881.02)</td>
 </tr>
 <tr class="odd">
-<td id="T_e1715_row2_col0" class="data row2 col0">Cohabitation</td>
-<td id="T_e1715_row2_col1" class="data row2 col1"></td>
-<td id="T_e1715_row2_col2" class="data row2 col2"></td>
+<td id="T_96370_row2_col0" class="data row2 col0">Cohabitation</td>
+<td id="T_96370_row2_col1" class="data row2 col1"></td>
+<td id="T_96370_row2_col2" class="data row2 col2"></td>
 </tr>
 <tr class="even">
-<td id="T_e1715_row3_col0" class="data row3 col0">0</td>
-<td id="T_e1715_row3_col1" class="data row3 col1">42 (14.7%)</td>
-<td id="T_e1715_row3_col2" class="data row3 col2">25 (12.0%)</td>
+<td id="T_96370_row3_col0" class="data row3 col0">&gt; 0</td>
+<td id="T_96370_row3_col1" class="data row3 col1">42 (14.7%)</td>
+<td id="T_96370_row3_col2" class="data row3 col2">25 (12.0%)</td>
 </tr>
 <tr class="odd">
-<td id="T_e1715_row4_col0" class="data row4 col0">1</td>
-<td id="T_e1715_row4_col1" class="data row4 col1">243 (85.3%)</td>
-<td id="T_e1715_row4_col2" class="data row4 col2">184 (88.0%)</td>
+<td id="T_96370_row4_col0" class="data row4 col0">&gt; 1</td>
+<td id="T_96370_row4_col1" class="data row4 col1">243 (85.3%)</td>
+<td id="T_96370_row4_col2" class="data row4 col2">184 (88.0%)</td>
 </tr>
 <tr class="even">
-<td id="T_e1715_row5_col0" class="data row5 col0">Housework allocation</td>
-<td id="T_e1715_row5_col1" class="data row5 col1"></td>
-<td id="T_e1715_row5_col2" class="data row5 col2"></td>
+<td id="T_96370_row5_col0" class="data row5 col0">Housework allocation</td>
+<td id="T_96370_row5_col1" class="data row5 col1"></td>
+<td id="T_96370_row5_col2" class="data row5 col2"></td>
 </tr>
 <tr class="odd">
-<td id="T_e1715_row6_col0" class="data row6 col0">0</td>
-<td id="T_e1715_row6_col1" class="data row6 col1">108 (37.9%)</td>
-<td id="T_e1715_row6_col2" class="data row6 col2">196 (93.8%)</td>
+<td id="T_96370_row6_col0" class="data row6 col0">&gt; 0</td>
+<td id="T_96370_row6_col1" class="data row6 col1">108 (37.9%)</td>
+<td id="T_96370_row6_col2" class="data row6 col2">196 (93.8%)</td>
 </tr>
 <tr class="even">
-<td id="T_e1715_row7_col0" class="data row7 col0">1</td>
-<td id="T_e1715_row7_col1" class="data row7 col1">177 (62.1%)</td>
-<td id="T_e1715_row7_col2" class="data row7 col2">13 (6.2%)</td>
+<td id="T_96370_row7_col0" class="data row7 col0">&gt; 1</td>
+<td id="T_96370_row7_col1" class="data row7 col1">177 (62.1%)</td>
+<td id="T_96370_row7_col2" class="data row7 col2">13 (6.2%)</td>
 </tr>
 </tbody>
 </table>
@@ -182,9 +191,14 @@ Table&nbsp;1: Baseline characteristics of individuals (first observation per ind
 </figure>
 </div>
 </div>
+<p><em>Note:</em> Continuous variables are presented as <em>mean (SD)</em>; categorical variables as <em>n (%)</em>.</p>
 </section>
 <section id="question-2" class="level3">
 <h3 class="anchored" data-anchor-id="question-2">Question 2</h3>
+<blockquote class="blockquote">
+<p>Present and interpret a mean longitudinal profile of satisfaction measurements by household workload (Figure 1).</p>
+</blockquote>
+<p><a href="#fig-mean-profile" class="quarto-xref">Figure&nbsp;1</a> depicts the mean longitudinal profile of satisfaction measurements by household workload. The plot shows that individuals with higher household workloads tend to have lower marital satisfaction over time, while those with lower household workloads tend to have higher marital satisfaction. This suggests a potential negative association between household workload and marital satisfaction, which may warrant further investigation.</p>
 <div id="cell-fig-mean-profile" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div id="fig-mean-profile" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -202,8 +216,11 @@ Figure&nbsp;1: Mean longitudinal profile of satisfaction by household workload.
 </section>
 <section id="question-3" class="level3">
 <h3 class="anchored" data-anchor-id="question-3">Question 3</h3>
-<p>Make sure you mention:</p>
-<p>✔ “individual trajectories” ✔ “within-subject variability” ✔ “between-subject variability” ✔ “correlation of repeated measures” ✔ whether group differences are obvious or not</p>
+<blockquote class="blockquote">
+<p>Present and interpret a spaghetti plot of satisfaction measurements by premarital cohabitation (Figure 2).</p>
+</blockquote>
+<p><a href="#fig-spaghetti" class="quarto-xref">Figure&nbsp;2</a> shows the marital satisfaction score over time for each individual over time. The left hand graph depics satisfaction of individuals that chose not to cohabitate with their partners before getting married. The right hand shows those that did co-habitate before getting married.</p>
+<p>In general, both groups show a clear downward trajectory over time with significant indivudual variation. The overall patterns appear similar across cohabitation groups.</p>
 <div id="cell-fig-spaghetti" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div id="fig-spaghetti" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -222,130 +239,130 @@ Figure&nbsp;2: Spaghetti Plot of Satisfaction by Premarital Cohabitation.
 </section>
 <section id="part-2-generalized-estimating-equations-gees" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-generalized-estimating-equations-gees">Part 2: Generalized estimating equations (GEEs)</h2>
+<blockquote class="blockquote">
+<p>Fit an appropriate GEE to examine the association between marital satisfaction and time, including all covariates (do not include statistical interactions terms). Fit two models using different correlation structures:</p>
+<ol type="1">
+<li>GEE 1: First-order autoregressive structure (AR1)</li>
+<li>GEE 2: Unstructured correlation matrix*</li>
+</ol>
+</blockquote>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Think about</p>
+<p>Observation time - unbalanced vs balanced data, number of time points, and the number of parameters to be estimated in the correlation matrix when choosing the working correlation structure.</p>
+<p>Moet ek obs time normaliseer? Is dit nodig dat almal by tydpunt 0 begin?</p>
+</div>
+</div>
 <section id="question-4" class="level3">
 <h3 class="anchored" data-anchor-id="question-4">Question 4</h3>
+<blockquote class="blockquote">
+<p>Present a single table (Table 2) with coefficient estimates, standard errors, and 95% confidence intervals (CI) for both GEE models. Use robust (sandwich) standard errors throughout</p>
+</blockquote>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="#tbl-gee" class="quarto-xref">Table&nbsp;2</a> presents the estimated associations between marital satisfaction and time and covariates from two GEE models with different working correlation structures.</p>
+<p>There is evidence that marital satisfaction decreases over time, as indicated by the negative coefficient for time in the AR(1) model. This suggests that, on average, satisfaction declines with increasing follow-up time. However, the estimate from the unstructured model is less precise and includes the null, indicating some sensitivity to the choice of working correlation structure.</p>
+<p>Sex is associated with satisfaction, with males reporting lower satisfaction than females in the AR(1) model. This effect is less consistent in the unstructured model, where the confidence interval includes zero.</p>
+<p>Household workload is negatively associated with satisfaction, with higher workload associated with lower satisfaction in the AR(1) model. This effect is less precise in the unstructured model.</p>
+<p>There is no strong evidence of association between satisfaction and age at marriage, premarital cohabitation, or income, as the confidence intervals for these variables include zero in both models.</p>
+<p>Overall, the estimates are broadly similar across the two models, although some differences in precision and statistical significance are observed, suggesting that the results are reasonably robust but somewhat sensitive to the assumed correlation structure.</p>
+</div>
+</div>
 <div class="cell" data-execution_count="5">
-<div id="tbl-table2" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5">
+<div id="tbl-gee" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-table2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2: Comparing covariance matrixes for GEE models.
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-gee-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: GEE model estimates with robust standard errors and 95% confidence intervals.
 </figcaption>
-<div aria-describedby="tbl-table2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div aria-describedby="tbl-gee-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display" data-execution_count="41">
 <style type="text/css">
-#T_e1369_row0_col0, #T_e1369_row1_col0, #T_e1369_row2_col0, #T_e1369_row3_col0, #T_e1369_row4_col0, #T_e1369_row5_col0, #T_e1369_row6_col0, #T_e1369_row7_col0, #T_e1369_row8_col0, #T_e1369_row9_col0, #T_e1369_row10_col0, #T_e1369_row11_col0, #T_e1369_row12_col0, #T_e1369_row13_col0 {
+#T_40bbd_row0_col0, #T_40bbd_row1_col0, #T_40bbd_row2_col0, #T_40bbd_row3_col0, #T_40bbd_row4_col0, #T_40bbd_row5_col0, #T_40bbd_row6_col0 {
   text-align: left;
+  font-weight: bold;
 }
 </style>
 
-<table id="T_e1369" class="cell caption-top table table-sm table-striped small">
+<table id="T_40bbd" class="cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_e1369_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Model</th>
-<th id="T_e1369_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Variable</th>
-<th id="T_e1369_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Estimate</th>
-<th id="T_e1369_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">SE</th>
-<th id="T_e1369_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">95% CI</th>
+<th id="T_40bbd_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Variable</th>
+<th colspan="2" id="T_40bbd_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">AR(1)</th>
+<th colspan="2" id="T_40bbd_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Unstructured</th>
+</tr>
+<tr class="even">
+<th id="T_40bbd_level1_col0" class="col_heading level1 col0" data-quarto-table-cell-role="th"></th>
+<th id="T_40bbd_level1_col1" class="col_heading level1 col1" data-quarto-table-cell-role="th">Estimate (SE)</th>
+<th id="T_40bbd_level1_col2" class="col_heading level1 col2" data-quarto-table-cell-role="th">95% CI</th>
+<th id="T_40bbd_level1_col3" class="col_heading level1 col3" data-quarto-table-cell-role="th">Estimate (SE)</th>
+<th id="T_40bbd_level1_col4" class="col_heading level1 col4" data-quarto-table-cell-role="th">95% CI</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_e1369_row0_col0" class="data row0 col0">GEE 1: AR(1)</td>
-<td id="T_e1369_row0_col1" class="data row0 col1">Intercept</td>
-<td id="T_e1369_row0_col2" class="data row0 col2">6.972000</td>
-<td id="T_e1369_row0_col3" class="data row0 col3">0.412000</td>
-<td id="T_e1369_row0_col4" class="data row0 col4">6.165 to 7.779</td>
+<td id="T_40bbd_row0_col0" class="data row0 col0">Intercept</td>
+<td id="T_40bbd_row0_col1" class="data row0 col1">7.543 (0.366)</td>
+<td id="T_40bbd_row0_col2" class="data row0 col2">6.825 to 8.261</td>
+<td id="T_40bbd_row0_col3" class="data row0 col3">9.003 (0.919)</td>
+<td id="T_40bbd_row0_col4" class="data row0 col4">7.201 to 10.805</td>
 </tr>
 <tr class="even">
-<td id="T_e1369_row1_col0" class="data row1 col0">GEE 1: AR(1)</td>
-<td id="T_e1369_row1_col1" class="data row1 col1">sex[T.male]</td>
-<td id="T_e1369_row1_col2" class="data row1 col2">-0.394000</td>
-<td id="T_e1369_row1_col3" class="data row1 col3">0.155000</td>
-<td id="T_e1369_row1_col4" class="data row1 col4">-0.697 to -0.091</td>
+<td id="T_40bbd_row1_col0" class="data row1 col0">Male (vs Female)</td>
+<td id="T_40bbd_row1_col1" class="data row1 col1">-0.403 (0.144)</td>
+<td id="T_40bbd_row1_col2" class="data row1 col2">-0.685 to -0.122</td>
+<td id="T_40bbd_row1_col3" class="data row1 col3">0.237 (0.579)</td>
+<td id="T_40bbd_row1_col4" class="data row1 col4">-0.898 to 1.371</td>
 </tr>
 <tr class="odd">
-<td id="T_e1369_row2_col0" class="data row2 col0">GEE 1: AR(1)</td>
-<td id="T_e1369_row2_col1" class="data row2 col1">time_index</td>
-<td id="T_e1369_row2_col2" class="data row2 col2">-0.295000</td>
-<td id="T_e1369_row2_col3" class="data row2 col3">0.009000</td>
-<td id="T_e1369_row2_col4" class="data row2 col4">-0.313 to -0.277</td>
+<td id="T_40bbd_row2_col0" class="data row2 col0">Time</td>
+<td id="T_40bbd_row2_col1" class="data row2 col1">-0.009 (0.000)</td>
+<td id="T_40bbd_row2_col2" class="data row2 col2">-0.009 to -0.008</td>
+<td id="T_40bbd_row2_col3" class="data row2 col3">0.168 (0.200)</td>
+<td id="T_40bbd_row2_col4" class="data row2 col4">-0.225 to 0.560</td>
 </tr>
 <tr class="even">
-<td id="T_e1369_row3_col0" class="data row3 col0">GEE 1: AR(1)</td>
-<td id="T_e1369_row3_col1" class="data row3 col1">age_marriage</td>
-<td id="T_e1369_row3_col2" class="data row3 col2">0.010000</td>
-<td id="T_e1369_row3_col3" class="data row3 col3">0.012000</td>
-<td id="T_e1369_row3_col4" class="data row3 col4">-0.014 to 0.034</td>
+<td id="T_40bbd_row3_col0" class="data row3 col0">Age at marriage</td>
+<td id="T_40bbd_row3_col1" class="data row3 col1">0.014 (0.011)</td>
+<td id="T_40bbd_row3_col2" class="data row3 col2">-0.008 to 0.037</td>
+<td id="T_40bbd_row3_col3" class="data row3 col3">-0.039 (0.036)</td>
+<td id="T_40bbd_row3_col4" class="data row3 col4">-0.109 to 0.032</td>
 </tr>
 <tr class="odd">
-<td id="T_e1369_row4_col0" class="data row4 col0">GEE 1: AR(1)</td>
-<td id="T_e1369_row4_col1" class="data row4 col1">cohab</td>
-<td id="T_e1369_row4_col2" class="data row4 col2">0.311000</td>
-<td id="T_e1369_row4_col3" class="data row4 col3">0.183000</td>
-<td id="T_e1369_row4_col4" class="data row4 col4">-0.047 to 0.669</td>
+<td id="T_40bbd_row4_col0" class="data row4 col0">Premarital cohabitation</td>
+<td id="T_40bbd_row4_col1" class="data row4 col1">0.260 (0.163)</td>
+<td id="T_40bbd_row4_col2" class="data row4 col2">-0.060 to 0.580</td>
+<td id="T_40bbd_row4_col3" class="data row4 col3">-0.315 (0.473)</td>
+<td id="T_40bbd_row4_col4" class="data row4 col4">-1.242 to 0.611</td>
 </tr>
 <tr class="even">
-<td id="T_e1369_row5_col0" class="data row5 col0">GEE 1: AR(1)</td>
-<td id="T_e1369_row5_col1" class="data row5 col1">income</td>
-<td id="T_e1369_row5_col2" class="data row5 col2">-0.000000</td>
-<td id="T_e1369_row5_col3" class="data row5 col3">0.000000</td>
-<td id="T_e1369_row5_col4" class="data row5 col4">-0.0 to 0.0</td>
+<td id="T_40bbd_row5_col0" class="data row5 col0">Income</td>
+<td id="T_40bbd_row5_col1" class="data row5 col1">-0.000 (0.000)</td>
+<td id="T_40bbd_row5_col2" class="data row5 col2">-0.000 to 0.000</td>
+<td id="T_40bbd_row5_col3" class="data row5 col3">-0.000 (0.000)</td>
+<td id="T_40bbd_row5_col4" class="data row5 col4">-0.000 to 0.000</td>
 </tr>
 <tr class="odd">
-<td id="T_e1369_row6_col0" class="data row6 col0">GEE 1: AR(1)</td>
-<td id="T_e1369_row6_col1" class="data row6 col1">hw_all</td>
-<td id="T_e1369_row6_col2" class="data row6 col2">-0.549000</td>
-<td id="T_e1369_row6_col3" class="data row6 col3">0.155000</td>
-<td id="T_e1369_row6_col4" class="data row6 col4">-0.853 to -0.246</td>
-</tr>
-<tr class="even">
-<td id="T_e1369_row7_col0" class="data row7 col0">GEE 2: Unstructured</td>
-<td id="T_e1369_row7_col1" class="data row7 col1">Intercept</td>
-<td id="T_e1369_row7_col2" class="data row7 col2">6.930000</td>
-<td id="T_e1369_row7_col3" class="data row7 col3">0.392000</td>
-<td id="T_e1369_row7_col4" class="data row7 col4">6.162 to 7.698</td>
-</tr>
-<tr class="odd">
-<td id="T_e1369_row8_col0" class="data row8 col0">GEE 2: Unstructured</td>
-<td id="T_e1369_row8_col1" class="data row8 col1">sex[T.male]</td>
-<td id="T_e1369_row8_col2" class="data row8 col2">-0.483000</td>
-<td id="T_e1369_row8_col3" class="data row8 col3">0.154000</td>
-<td id="T_e1369_row8_col4" class="data row8 col4">-0.784 to -0.182</td>
-</tr>
-<tr class="even">
-<td id="T_e1369_row9_col0" class="data row9 col0">GEE 2: Unstructured</td>
-<td id="T_e1369_row9_col1" class="data row9 col1">time_index</td>
-<td id="T_e1369_row9_col2" class="data row9 col2">-0.432000</td>
-<td id="T_e1369_row9_col3" class="data row9 col3">0.021000</td>
-<td id="T_e1369_row9_col4" class="data row9 col4">-0.474 to -0.39</td>
-</tr>
-<tr class="odd">
-<td id="T_e1369_row10_col0" class="data row10 col0">GEE 2: Unstructured</td>
-<td id="T_e1369_row10_col1" class="data row10 col1">age_marriage</td>
-<td id="T_e1369_row10_col2" class="data row10 col2">0.013000</td>
-<td id="T_e1369_row10_col3" class="data row10 col3">0.012000</td>
-<td id="T_e1369_row10_col4" class="data row10 col4">-0.01 to 0.036</td>
-</tr>
-<tr class="even">
-<td id="T_e1369_row11_col0" class="data row11 col0">GEE 2: Unstructured</td>
-<td id="T_e1369_row11_col1" class="data row11 col1">cohab</td>
-<td id="T_e1369_row11_col2" class="data row11 col2">0.371000</td>
-<td id="T_e1369_row11_col3" class="data row11 col3">0.181000</td>
-<td id="T_e1369_row11_col4" class="data row11 col4">0.016 to 0.726</td>
-</tr>
-<tr class="odd">
-<td id="T_e1369_row12_col0" class="data row12 col0">GEE 2: Unstructured</td>
-<td id="T_e1369_row12_col1" class="data row12 col1">income</td>
-<td id="T_e1369_row12_col2" class="data row12 col2">-0.000000</td>
-<td id="T_e1369_row12_col3" class="data row12 col3">0.000000</td>
-<td id="T_e1369_row12_col4" class="data row12 col4">-0.0 to 0.0</td>
-</tr>
-<tr class="even">
-<td id="T_e1369_row13_col0" class="data row13 col0">GEE 2: Unstructured</td>
-<td id="T_e1369_row13_col1" class="data row13 col1">hw_all</td>
-<td id="T_e1369_row13_col2" class="data row13 col2">-0.559000</td>
-<td id="T_e1369_row13_col3" class="data row13 col3">0.154000</td>
-<td id="T_e1369_row13_col4" class="data row13 col4">-0.86 to -0.258</td>
+<td id="T_40bbd_row6_col0" class="data row6 col0">Household workload</td>
+<td id="T_40bbd_row6_col1" class="data row6 col1">-0.470 (0.144)</td>
+<td id="T_40bbd_row6_col2" class="data row6 col2">-0.752 to -0.189</td>
+<td id="T_40bbd_row6_col3" class="data row6 col3">-0.590 (0.649)</td>
+<td id="T_40bbd_row6_col4" class="data row6 col4">-1.862 to 0.682</td>
 </tr>
 </tbody>
 </table>
@@ -357,17 +374,69 @@ Table&nbsp;2: Comparing covariance matrixes for GEE models.
 </section>
 <section id="question-5" class="level3">
 <h3 class="anchored" data-anchor-id="question-5">Question 5</h3>
+<blockquote class="blockquote">
+<p>Determine the most appropriate correlation structure and justify your choice. State which GEE (GEE 1 or GEE 2) you will use as your final model.</p>
+</blockquote>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The AR(1) correlation structure was judged to be the most appropriate. It is conceptually suitable for longitudinal data because it assumes that correlations decrease as observations become further apart in time. Empirically, the AR(1) model produced more stable coefficient estimates and narrower confidence intervals than the unstructured model, whereas the unstructured model showed less precision and greater instability, likely due to the need to estimate many correlation parameters in an unbalanced dataset. Therefore, the AR(1) structure was preferred.</p>
+</div>
+</div>
 </section>
 <section id="question-6" class="level3">
 <h3 class="anchored" data-anchor-id="question-6">Question 6</h3>
-<p><em>Based on your final GEE model (from Q5), fully interpret the effects of the following predictors on marital satisfaction. For each, provide the estimated coefficient, 95% CI, and an interpretation: </em> Time * Premarital cohabitation * Household workload*</p>
+<blockquote class="blockquote">
+<p>Based on your final GEE model (from Q5), fully interpret the effects of the following predictors on marital satisfaction. For each, provide the estimated coefficient, 95% CI, and an interpretation:</p>
+<ul>
+<li>Time</li>
+<li>Premarital cohabitation</li>
+<li>Household workload</li>
+</ul>
+</blockquote>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Time</strong></p>
+<p>The estimated coefficient for time is −0.009 (95% CI: −0.009 to −0.008). This indicates that, on average, marital satisfaction decreases over time, with a small but consistent decline per unit increase in time. The confidence interval does not include zero, providing strong evidence of a negative association between time and satisfaction.</p>
+<p><strong>Premarital cohabitation</strong></p>
+<p>The estimated coefficient for premarital cohabitation is 0.260 (95% CI: −0.060 to 0.580). This suggests that individuals who cohabited before marriage have, on average, slightly higher marital satisfaction compared to those who did not. However, the confidence interval includes zero, indicating no strong evidence of an association between premarital cohabitation and satisfaction.</p>
+<p><strong>Household workload</strong></p>
+<p>The estimated coefficient for household workload is −0.470 (95% CI: −0.752 to −0.189). This indicates that higher household workload is associated with lower marital satisfaction, with individuals experiencing greater workload reporting, on average, lower satisfaction scores. The confidence interval does not include zero, providing evidence of a negative association.</p>
+</div>
+</div>
 </section>
 </section>
 <section id="part-3-linear-mixed-effects-lme-model" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-linear-mixed-effects-lme-model">Part 3: Linear mixed effects (LME) model</h2>
-<p><em>Fit an LME model to assess the association between marital satisfaction and time, including all covariates (do not include statistical interactions terms). Fit two models with different random-effects structures: 1. LME 1: Random intercepts only 2. LME 2: Random intercepts and random linear slopes for time</em></p>
+<blockquote class="blockquote">
+<p>Fit an LME model to assess the association between marital satisfaction and time, including all covariates (do not include statistical interactions terms). Fit two models with different random-effects structures:</p>
+<ol type="1">
+<li>LME 1: Random intercepts only</li>
+<li>LME 2: Random intercepts and random linear slopes for time</li>
+</ol>
+</blockquote>
+<p>This section used <code>statsmodels</code> version 0.14.6 package in a Python environment (version 3.13.1). The LME models were fitted using the <code>MixedLM</code> function, using maximum likelihood estimation.</p>
 <section id="question-7" class="level3">
 <h3 class="anchored" data-anchor-id="question-7">Question 7</h3>
+<blockquote class="blockquote">
+<p>Present a single table (Table 3) with fixed-effect coefficient estimates, 95% confidence intervals, and relevant model comparison metrics for both LME models (LME 1 and LME 2). Present only the fixed effects - do not include the random-effects variance components in the table.</p>
+</blockquote>
+<p><a href="#tbl-table3" class="quarto-xref">Table&nbsp;3</a> provides a comparison of the fixed-effect coefficient estimates, 95% confidence intervals, and model comparison metrics for two LME models with different random-effects structures. LME 1 includes only random intercepts, while LME 2 includes both random intercepts and random slopes for time, allowing for individual variation in both baseline satisfaction and the rate of change in satisfaction over time. Model fit statistcs are also provided at the bottom of the table for each model. Overall, Log-likelihood, AIC and BIC indicate lower values for LME 2 than LME 1.</p>
 <div class="cell" data-execution_count="6">
 <div id="tbl-table3" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="6">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -375,149 +444,78 @@ Table&nbsp;2: Comparing covariance matrixes for GEE models.
 Table&nbsp;3: Comparing covariance matrixes for LME models.
 </figcaption>
 <div aria-describedby="tbl-table3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="42">
 <style type="text/css">
-#T_e9678_row0_col0, #T_e9678_row1_col0, #T_e9678_row2_col0, #T_e9678_row3_col0, #T_e9678_row4_col0, #T_e9678_row5_col0, #T_e9678_row6_col0, #T_e9678_row7_col0, #T_e9678_row8_col0, #T_e9678_row9_col0, #T_e9678_row10_col0, #T_e9678_row11_col0, #T_e9678_row12_col0, #T_e9678_row13_col0, #T_e9678_row14_col0, #T_e9678_row15_col0, #T_e9678_row16_col0, #T_e9678_row17_col0 {
+#T_257c5_row0_col0, #T_257c5_row1_col0, #T_257c5_row2_col0, #T_257c5_row3_col0, #T_257c5_row4_col0, #T_257c5_row5_col0, #T_257c5_row6_col0 {
   text-align: left;
+  font-weight: bold;
 }
 </style>
 
-<table id="T_e9678" class="cell caption-top table table-sm table-striped small">
+<table id="T_257c5" class="cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_e9678_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Model</th>
-<th id="T_e9678_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Variable</th>
-<th id="T_e9678_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Estimate</th>
-<th id="T_e9678_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">SE</th>
-<th id="T_e9678_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">95% CI</th>
+<th id="T_257c5_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Variable</th>
+<th colspan="2" id="T_257c5_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">LME 1: Random intercept</th>
+<th colspan="2" id="T_257c5_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">LME 2: Random intercept + slope</th>
+</tr>
+<tr class="even">
+<th id="T_257c5_level1_col0" class="col_heading level1 col0" data-quarto-table-cell-role="th"></th>
+<th id="T_257c5_level1_col1" class="col_heading level1 col1" data-quarto-table-cell-role="th">Estimate (SE)</th>
+<th id="T_257c5_level1_col2" class="col_heading level1 col2" data-quarto-table-cell-role="th">95% CI</th>
+<th id="T_257c5_level1_col3" class="col_heading level1 col3" data-quarto-table-cell-role="th">Estimate (SE)</th>
+<th id="T_257c5_level1_col4" class="col_heading level1 col4" data-quarto-table-cell-role="th">95% CI</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_e9678_row0_col0" class="data row0 col0">LME 1: Random intercept</td>
-<td id="T_e9678_row0_col1" class="data row0 col1">Intercept</td>
-<td id="T_e9678_row0_col2" class="data row0 col2">6.968000</td>
-<td id="T_e9678_row0_col3" class="data row0 col3">0.425000</td>
-<td id="T_e9678_row0_col4" class="data row0 col4">6.135 to 7.801</td>
+<td id="T_257c5_row0_col0" class="data row0 col0">Intercept</td>
+<td id="T_257c5_row0_col1" class="data row0 col1">6.968 (0.422)</td>
+<td id="T_257c5_row0_col2" class="data row0 col2">6.140 to 7.795</td>
+<td id="T_257c5_row0_col3" class="data row0 col3">6.920 (0.424)</td>
+<td id="T_257c5_row0_col4" class="data row0 col4">6.089 to 7.751</td>
 </tr>
 <tr class="even">
-<td id="T_e9678_row1_col0" class="data row1 col0">LME 1: Random intercept</td>
-<td id="T_e9678_row1_col1" class="data row1 col1">sex[T.male]</td>
-<td id="T_e9678_row1_col2" class="data row1 col2">-0.434000</td>
-<td id="T_e9678_row1_col3" class="data row1 col3">0.153000</td>
-<td id="T_e9678_row1_col4" class="data row1 col4">-0.734 to -0.134</td>
+<td id="T_257c5_row1_col0" class="data row1 col0">Male (vs Female)</td>
+<td id="T_257c5_row1_col1" class="data row1 col1">-0.434 (0.152)</td>
+<td id="T_257c5_row1_col2" class="data row1 col2">-0.732 to -0.136</td>
+<td id="T_257c5_row1_col3" class="data row1 col3">-0.455 (0.152)</td>
+<td id="T_257c5_row1_col4" class="data row1 col4">-0.753 to -0.157</td>
 </tr>
 <tr class="odd">
-<td id="T_e9678_row2_col0" class="data row2 col0">LME 1: Random intercept</td>
-<td id="T_e9678_row2_col1" class="data row2 col1">time_index</td>
-<td id="T_e9678_row2_col2" class="data row2 col2">-0.308000</td>
-<td id="T_e9678_row2_col3" class="data row2 col3">0.006000</td>
-<td id="T_e9678_row2_col4" class="data row2 col4">-0.319 to -0.297</td>
+<td id="T_257c5_row2_col0" class="data row2 col0">Time</td>
+<td id="T_257c5_row2_col1" class="data row2 col1">-0.308 (0.006)</td>
+<td id="T_257c5_row2_col2" class="data row2 col2">-0.319 to -0.297</td>
+<td id="T_257c5_row2_col3" class="data row2 col3">-0.341 (0.009)</td>
+<td id="T_257c5_row2_col4" class="data row2 col4">-0.359 to -0.324</td>
 </tr>
 <tr class="even">
-<td id="T_e9678_row3_col0" class="data row3 col0">LME 1: Random intercept</td>
-<td id="T_e9678_row3_col1" class="data row3 col1">age_marriage</td>
-<td id="T_e9678_row3_col2" class="data row3 col2">0.008000</td>
-<td id="T_e9678_row3_col3" class="data row3 col3">0.013000</td>
-<td id="T_e9678_row3_col4" class="data row3 col4">-0.017 to 0.033</td>
+<td id="T_257c5_row3_col0" class="data row3 col0">Age at marriage</td>
+<td id="T_257c5_row3_col1" class="data row3 col1">0.008 (0.013)</td>
+<td id="T_257c5_row3_col2" class="data row3 col2">-0.017 to 0.033</td>
+<td id="T_257c5_row3_col3" class="data row3 col3">0.011 (0.013)</td>
+<td id="T_257c5_row3_col4" class="data row3 col4">-0.015 to 0.036</td>
 </tr>
 <tr class="odd">
-<td id="T_e9678_row4_col0" class="data row4 col0">LME 1: Random intercept</td>
-<td id="T_e9678_row4_col1" class="data row4 col1">cohab</td>
-<td id="T_e9678_row4_col2" class="data row4 col2">0.262000</td>
-<td id="T_e9678_row4_col3" class="data row4 col3">0.178000</td>
-<td id="T_e9678_row4_col4" class="data row4 col4">-0.087 to 0.612</td>
+<td id="T_257c5_row4_col0" class="data row4 col0">Premarital cohabitation</td>
+<td id="T_257c5_row4_col1" class="data row4 col1">0.262 (0.177)</td>
+<td id="T_257c5_row4_col2" class="data row4 col2">-0.085 to 0.609</td>
+<td id="T_257c5_row4_col3" class="data row4 col3">0.298 (0.177)</td>
+<td id="T_257c5_row4_col4" class="data row4 col4">-0.050 to 0.646</td>
 </tr>
 <tr class="even">
-<td id="T_e9678_row5_col0" class="data row5 col0">LME 1: Random intercept</td>
-<td id="T_e9678_row5_col1" class="data row5 col1">income</td>
-<td id="T_e9678_row5_col2" class="data row5 col2">-0.000000</td>
-<td id="T_e9678_row5_col3" class="data row5 col3">0.000000</td>
-<td id="T_e9678_row5_col4" class="data row5 col4">-0.0 to 0.0</td>
+<td id="T_257c5_row5_col0" class="data row5 col0">Income</td>
+<td id="T_257c5_row5_col1" class="data row5 col1">-0.000 (0.000)</td>
+<td id="T_257c5_row5_col2" class="data row5 col2">-0.000 to 0.000</td>
+<td id="T_257c5_row5_col3" class="data row5 col3">-0.000 (0.000)</td>
+<td id="T_257c5_row5_col4" class="data row5 col4">-0.000 to 0.000</td>
 </tr>
 <tr class="odd">
-<td id="T_e9678_row6_col0" class="data row6 col0">LME 1: Random intercept</td>
-<td id="T_e9678_row6_col1" class="data row6 col1">hw_all</td>
-<td id="T_e9678_row6_col2" class="data row6 col2">-0.579000</td>
-<td id="T_e9678_row6_col3" class="data row6 col3">0.152000</td>
-<td id="T_e9678_row6_col4" class="data row6 col4">-0.876 to -0.281</td>
-</tr>
-<tr class="even">
-<td id="T_e9678_row7_col0" class="data row7 col0">LME 1: Random intercept</td>
-<td id="T_e9678_row7_col1" class="data row7 col1">Group Var</td>
-<td id="T_e9678_row7_col2" class="data row7 col2">2.002000</td>
-<td id="T_e9678_row7_col3" class="data row7 col3">0.148000</td>
-<td id="T_e9678_row7_col4" class="data row7 col4">1.711 to 2.292</td>
-</tr>
-<tr class="odd">
-<td id="T_e9678_row8_col0" class="data row8 col0">LME 2: Random intercept + slope</td>
-<td id="T_e9678_row8_col1" class="data row8 col1">Intercept</td>
-<td id="T_e9678_row8_col2" class="data row8 col2">6.920000</td>
-<td id="T_e9678_row8_col3" class="data row8 col3">0.427000</td>
-<td id="T_e9678_row8_col4" class="data row8 col4">6.084 to 7.756</td>
-</tr>
-<tr class="even">
-<td id="T_e9678_row9_col0" class="data row9 col0">LME 2: Random intercept + slope</td>
-<td id="T_e9678_row9_col1" class="data row9 col1">sex[T.male]</td>
-<td id="T_e9678_row9_col2" class="data row9 col2">-0.455000</td>
-<td id="T_e9678_row9_col3" class="data row9 col3">0.153000</td>
-<td id="T_e9678_row9_col4" class="data row9 col4">-0.755 to -0.155</td>
-</tr>
-<tr class="odd">
-<td id="T_e9678_row10_col0" class="data row10 col0">LME 2: Random intercept + slope</td>
-<td id="T_e9678_row10_col1" class="data row10 col1">time_index</td>
-<td id="T_e9678_row10_col2" class="data row10 col2">-0.342000</td>
-<td id="T_e9678_row10_col3" class="data row10 col3">0.009000</td>
-<td id="T_e9678_row10_col4" class="data row10 col4">-0.359 to -0.325</td>
-</tr>
-<tr class="even">
-<td id="T_e9678_row11_col0" class="data row11 col0">LME 2: Random intercept + slope</td>
-<td id="T_e9678_row11_col1" class="data row11 col1">age_marriage</td>
-<td id="T_e9678_row11_col2" class="data row11 col2">0.011000</td>
-<td id="T_e9678_row11_col3" class="data row11 col3">0.013000</td>
-<td id="T_e9678_row11_col4" class="data row11 col4">-0.015 to 0.036</td>
-</tr>
-<tr class="odd">
-<td id="T_e9678_row12_col0" class="data row12 col0">LME 2: Random intercept + slope</td>
-<td id="T_e9678_row12_col1" class="data row12 col1">cohab</td>
-<td id="T_e9678_row12_col2" class="data row12 col2">0.298000</td>
-<td id="T_e9678_row12_col3" class="data row12 col3">0.179000</td>
-<td id="T_e9678_row12_col4" class="data row12 col4">-0.052 to 0.648</td>
-</tr>
-<tr class="even">
-<td id="T_e9678_row13_col0" class="data row13 col0">LME 2: Random intercept + slope</td>
-<td id="T_e9678_row13_col1" class="data row13 col1">income</td>
-<td id="T_e9678_row13_col2" class="data row13 col2">-0.000000</td>
-<td id="T_e9678_row13_col3" class="data row13 col3">0.000000</td>
-<td id="T_e9678_row13_col4" class="data row13 col4">-0.0 to 0.0</td>
-</tr>
-<tr class="odd">
-<td id="T_e9678_row14_col0" class="data row14 col0">LME 2: Random intercept + slope</td>
-<td id="T_e9678_row14_col1" class="data row14 col1">hw_all</td>
-<td id="T_e9678_row14_col2" class="data row14 col2">-0.542000</td>
-<td id="T_e9678_row14_col3" class="data row14 col3">0.152000</td>
-<td id="T_e9678_row14_col4" class="data row14 col4">-0.84 to -0.244</td>
-</tr>
-<tr class="even">
-<td id="T_e9678_row15_col0" class="data row15 col0">LME 2: Random intercept + slope</td>
-<td id="T_e9678_row15_col1" class="data row15 col1">Group Var</td>
-<td id="T_e9678_row15_col2" class="data row15 col2">2.180000</td>
-<td id="T_e9678_row15_col3" class="data row15 col3">0.178000</td>
-<td id="T_e9678_row15_col4" class="data row15 col4">1.832 to 2.529</td>
-</tr>
-<tr class="odd">
-<td id="T_e9678_row16_col0" class="data row16 col0">LME 2: Random intercept + slope</td>
-<td id="T_e9678_row16_col1" class="data row16 col1">Group x time_index Cov</td>
-<td id="T_e9678_row16_col2" class="data row16 col2">-0.008000</td>
-<td id="T_e9678_row16_col3" class="data row16 col3">0.016000</td>
-<td id="T_e9678_row16_col4" class="data row16 col4">-0.039 to 0.022</td>
-</tr>
-<tr class="even">
-<td id="T_e9678_row17_col0" class="data row17 col0">LME 2: Random intercept + slope</td>
-<td id="T_e9678_row17_col1" class="data row17 col1">time_index Var</td>
-<td id="T_e9678_row17_col2" class="data row17 col2">0.015000</td>
-<td id="T_e9678_row17_col3" class="data row17 col3">0.003000</td>
-<td id="T_e9678_row17_col4" class="data row17 col4">0.01 to 0.021</td>
+<td id="T_257c5_row6_col0" class="data row6 col0">Household workload</td>
+<td id="T_257c5_row6_col1" class="data row6 col1">-0.579 (0.151)</td>
+<td id="T_257c5_row6_col2" class="data row6 col2">-0.874 to -0.283</td>
+<td id="T_257c5_row6_col3" class="data row6 col3">-0.543 (0.151)</td>
+<td id="T_257c5_row6_col4" class="data row6 col4">-0.839 to -0.246</td>
 </tr>
 </tbody>
 </table>
@@ -526,14 +524,69 @@ Table&nbsp;3: Comparing covariance matrixes for LME models.
 </figure>
 </div>
 </div>
+<div id="ae056c7a" class="cell" data-results="asis" data-execution_count="7">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><em>Note:</em> Fixed effects are presented as estimate (SE) with 95% confidence intervals.<br>
+<em>Model fit statistics:</em><br>
+&gt; LME 1 AIC: 11542.18, BIC: 11598.39, Log-likelihood: -5762.09;<br>
+&gt; LME 2 AIC: 11451.54, BIC: 11520.25, Log-likelihood: -5714.77.</p>
+</div>
+</div>
 </section>
 <section id="question-8" class="level3">
 <h3 class="anchored" data-anchor-id="question-8">Question 8</h3>
-<p><em>Determine the most appropriate random-effects structure and justify your choice. State which LME (LME 1 or LME 2) is your final model.</em></p>
+<blockquote class="blockquote">
+<p>Determine the most appropriate random-effects structure and justify your choice. State which LME (LME 1 or LME 2) is your final model.</p>
+</blockquote>
+<p>LME 2 is a nested version of LME 1, adding random slopes for time. Fixed effect estimates are similar in both models, indicating consistency across models. However, LME 2 has higher log-likelihood and lower AIC and BIC values than LME 1, indicating a better fit to the data. The random slope variance in LME 2 is non-zero, suggesting meaningful between-individual variation in time trends that is not captured by random intercepts alone. This relates to the spagetti plot (<a href="#fig-spaghetti" class="quarto-xref">Figure&nbsp;2</a>) which showed clear individual variation in trajectories over time, supporting the need for random slopes.</p>
 </section>
 <section id="question-9" class="level3">
 <h3 class="anchored" data-anchor-id="question-9">Question 9</h3>
-<p><em>Compare the estimated effects of the following predictors between your final GEE model (Q5) and your final LME model (Q8): - Time - Premarital cohabitation - Household workload</em></p>
+<blockquote class="blockquote">
+<p>Compare the estimated effects of the following predictors between your final GEE model (Q5) and your final LME model (Q8):</p>
+<ul>
+<li>Time</li>
+<li>Premarital cohabitation</li>
+<li>Household workload</li>
+</ul>
+</blockquote>
+</section>
+</section>
+<section id="part-4-model-validation" class="level2">
+<h2 class="anchored" data-anchor-id="part-4-model-validation">Part 4: Model validation</h2>
+<section id="question-10" class="level3">
+<h3 class="anchored" data-anchor-id="question-10">Question 10</h3>
+<blockquote class="blockquote">
+<p>Present two residual diagnostic plots for your final LME model (Figures 3 and 4). One plot should depict the residuals, while the other plot should be related to the random effects. Do these plots look reasonable? Briefly discuss in two to three sentences whether the model assumptions appear to be satisfied.</p>
+</blockquote>
+<div id="cell-fig-residuals" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div id="fig-residuals" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-residuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="WMXJOL001%20-%20Biostats%203%20-%20Assignment_files/figure-html/fig-residuals-output-1.png" width="566" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Residuals Plot for Final LME Model.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-fig-qqplot" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div id="fig-qqplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qqplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="WMXJOL001%20-%20Biostats%203%20-%20Assignment_files/figure-html/fig-qqplot-output-1.png" width="566" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qqplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: QQ Plot of Residuals for Final LME Model.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 
