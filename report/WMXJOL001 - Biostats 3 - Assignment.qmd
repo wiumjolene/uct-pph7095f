@@ -3,23 +3,24 @@ title: "Biostatistics Assignment"
 author: "Jolene Wium"
 date: today
 format:
-  html:
-    toc: true
-    toc-depth: 4
-    number-sections: false
-    code-fold: false
-    theme: cosmo
-    df-print: paged
-    css: styles.css
-  # pdf:
+  # html:
   #   toc: true
-  #   toc-depth: 3
-  #   number-sections: true
-  #   keep-tex: false
-  #   fig-width: 7
-  #   fig-height: 4.5
-  #   geometry:
-  #     - margin=1in
+  #   toc-depth: 4
+  #   number-sections: false
+  #   code-fold: false
+  #   theme: cosmo
+  #   df-print: paged
+  #   css: styles.css
+  pdf:
+    documentclass: report
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    keep-tex: false
+    fig-width: 7
+    fig-height: 4.5
+    geometry:
+      - margin=1in
 execute:
   echo: false
   warning: false
