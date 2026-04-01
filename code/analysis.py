@@ -7,7 +7,7 @@ import scipy.stats as stats
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
 from IPython.display import Markdown, display
-from statsmodels.genmod.cov_struct import Autoregressive, Unstructured
+from statsmodels.genmod.cov_struct import Autoregressive, Unstructured, Independence
 from statsmodels.genmod.families import Gaussian
 
 import config
@@ -33,7 +33,14 @@ def load_data(data_path=DATA_PATH):
     # Keep full longitudinal profiles
     df = df[df["id"].isin(sampled_ids)].copy()
 
-    # Keep only relevant columns
+    # Set obs_time as integer 
+    df["obs_time"] = df["obs_time"].astype(int)
+
+    # Sort df (visit order within person) and create visit variable
+    df = df.sort_values(["id", "obs_time"]).reset_index(drop=True)
+    df["visit"] = df.groupby("id").cumcount()
+
+    # Keep relevant columns
     columns = [
         "id",
         "obs_time",
@@ -43,7 +50,9 @@ def load_data(data_path=DATA_PATH):
         "cohab",
         "income",
         "hw_all",
+        "visit",
     ]
+
     df = df[columns]
 
     return df
@@ -218,7 +227,6 @@ def plot_spaghetti(df):
 # ###########################################################################
 def fit_gee_models(df):
     dat = df.dropna().copy()
-    dat = dat.sort_values(["id", "obs_time"]).reset_index(drop=True)
 
     formula = (
         "satisfaction ~ obs_time + sex + age_marriage + "
@@ -236,14 +244,14 @@ def fit_gee_models(df):
     ).fit()
 
     # Unstructured: restricted visits
-    dat_un = dat[dat["obs_time"] <= 3].copy()
+    dat_un = dat[dat["visit"] <= 14].copy()
     gee_un = smf.gee(
         formula=formula,
         groups="id",
-        time="obs_time",
+        time="visit",  # visit order, but obs_time is used in the formula
         data=dat_un,
         family=Gaussian(),
-        cov_struct=Unstructured(), # The time argument must be of integer dtype, and indicates which position in a complete data vector is occupied by each observed value.
+        cov_struct=Unstructured(), 
     ).fit()
 
     return gee_ar1, gee_un
@@ -307,23 +315,12 @@ def question2_pretty(df):
 # PART 3: Linear mixed effects models (LMEs)
 # ###########################################################################
 def fit_lme_models(df):
-    dat = df[
-        [
-            "id",
-            "obs_time",
-            "satisfaction",
-            "sex",
-            "age_marriage",
-            "cohab",
-            "income",
-            "hw_all",
-        ]
-    ].dropna().copy()
+    dat = df.dropna().copy()
 
     dat = dat.sort_values(["id", "obs_time"]).reset_index(drop=True)
 
     # Use within-person time index
-    dat["obs_time"] = dat.groupby("id").cumcount().astype(int)
+    # dat["obs_time"] = dat.groupby("id").cumcount().astype(int) #FIXME: This is not the actual time, but the order of visits. Should we use this or the actual obs_time variable? --- IGNORE ---
 
     formula = (
         "satisfaction ~ obs_time + sex + age_marriage + "
@@ -448,7 +445,7 @@ def plot_residuals(model):
 
     plt.xlabel("Fitted values")
     plt.ylabel("Residuals")
-    plt.title("Figure 3: Residuals vs Fitted Values")
+    plt.title("Residuals vs Fitted Values")
 
     plt.tight_layout()
 
@@ -460,14 +457,6 @@ def plot_random_effects(model):
     # If random slope model → intercept is first column
     intercepts = re.iloc[:, 0]
 
-    # plt.style.use("seaborn-v0_8")
-    # plt.figure(figsize=(6, 4))
-    # stats.probplot(intercepts, dist="norm", plot=plt)
-
-    # plt.title("Figure 4: QQ Plot of Random Intercepts")
-
-
-
     fig = plt.figure(figsize=(6, 4))
     ax = fig.add_subplot(111)
 
@@ -477,6 +466,6 @@ def plot_random_effects(model):
     ax.get_lines()[0].set_color("teal")   # data points
     ax.get_lines()[1].set_color("black")  # reference line
 
-    ax.set_title("Figure 4: QQ Plot of Random Intercepts")
+    ax.set_title("QQ Plot of Random Intercepts")
 
     plt.tight_layout()
