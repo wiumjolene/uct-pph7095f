@@ -1,0 +1,41 @@
+::: {.content-visible when-format="html"}
+
+A Biostats III assignment.
+
+:::
+
+
+# Plagiarism Declaration {-}
+
+
+This thesis is an original work of my research and contains no material which has been accepted for the award of any other degree or diploma at any university or equivalent institution and that, to the best of my knowledge and belief, this thesis contains no material previously published or written by another person, except where due reference is made in the text of the thesis.
+
+Student name:
+
+Student signature:
+
+Date:
+
+
+```{python}
+#| include: false
+
+import os
+import sys
+import importlib
+import math
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+
+pd.set_option("display.max_columns", 50)
+pd.set_option("display.float_format", lambda x: f"{x:,.2f}")
+
+sys.path.append(os.path.abspath("../code"))
+
+import analysis
+importlib.reload(analysis)
+```
+
+\clearpage\pagenumbering{arabic}\setcounter{page}{1}

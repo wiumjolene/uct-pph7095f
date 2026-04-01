@@ -1,0 +1,97 @@
+```{python}
+#| include: false
+
+import os
+import sys
+import importlib
+import math
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+
+pd.set_option("display.max_columns", 50)
+pd.set_option("display.float_format", lambda x: f"{x:,.2f}")
+
+sys.path.append(os.path.abspath("../code"))
+
+import analysis
+importlib.reload(analysis)
+```
+
+# Part 1: Descriptive data analysis
+
+## Question 1
+
+> Present and discuss a single table (Table 1) summarizing the baseline characteristics of the individuals (first observation per individual). Stratify the table by sex.
+
+@tbl-table1 presents the baseline characteristics of the individuals in the dataset, stratified by sex. Males are on average 2.2 years older than females when first getting amarried. Females in the study population earned on average more than males. The majority of both sexes cohobted before marriage (both \> 85%). Females reported higher household workloads than males, with males taking on only 6.2% of the household workload on average, compared to 62.1% for females.
+
+<!-- ```{python}
+#| label: tbl-table1
+#| tbl-cap: "Baseline characteristics stratified by sex."
+#| echo: false
+
+df = analysis.load_data()
+table1 = analysis.table1_descriptive(df)
+table1.style.set_properties(
+    subset=["Variable"],
+    **{"text-align": "left"}
+).hide(axis="index")
+```
+ -->
+
+
+
+```{python}
+#| label: tbl-table1
+#| tbl-cap: "Baseline characteristics stratified by sex."
+#| results: asis
+#| echo: false
+
+df = analysis.load_data()
+df["sex"] = df["sex"].str.capitalize()
+table1 = analysis.table1_descriptive(df)
+
+table1 = table1.set_index("Variable")
+table1
+```
+*Note:* Continuous variables are presented as *mean (SD)*; categorical variables as *n (%)*.
+
+\newpage
+
+## Question 2
+
+> Present and interpret a mean longitudinal profile of satisfaction measurements by household workload (Figure 1).
+
+@fig-mean-profile depicts the mean longitudinal profile of satisfaction measurements by household workload. The plot shows that individuals with higher household workloads tend to have lower marital satisfaction over time, while those with lower household workloads tend to have higher marital satisfaction. This suggests a potential negative association between household workload and marital satisfaction, which may warrant further investigation.
+
+```{python}
+#| label: fig-mean-profile
+#| fig-cap: "Mean longitudinal profile of satisfaction by household workload."
+#| echo: false
+
+analysis.plot_mean_profile(df)
+
+```
+
+
+
+## Question 3
+
+> Present and interpret a spaghetti plot of satisfaction measurements by premarital cohabitation (Figure 2).
+
+@fig-spaghetti shows the marital satisfaction score over time for each individual over time. The left hand graph depics satisfaction of individuals that chose not to cohabitate with their partners before getting married. The right hand shows those that did co-habitate before getting married.
+
+In general, both groups show a clear downward trajectory over time with significant indivudual variation. The overall patterns appear similar across cohabitation groups.
+
+```{python}
+#| label: fig-spaghetti
+#| fig-cap: "Spaghetti Plot of Satisfaction by Premarital Cohabitation."
+
+# df = analysis.load_data()
+analysis.plot_spaghetti(df)
+
+```
+
+This section evaluated visual trends in marital satisfaction over time. The next section will evaluate general population level trends in the data using Generalized Estimating Equations (GEEs).

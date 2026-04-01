@@ -123,7 +123,7 @@ def table1_descriptive(df):
 
     for label, var in continuous_vars:
         summary = summarize_cont(df_baseline, var)
-        row = {"Variable": f"{label} (mean (SD))"}
+        row = {"Variable": f"{label} "}
         for sex in sex_levels:
             row[str(sex)] = summary.get(sex, "")
         table1_rows.append(row)
@@ -319,9 +319,6 @@ def fit_lme_models(df):
 
     dat = dat.sort_values(["id", "obs_time"]).reset_index(drop=True)
 
-    # Use within-person time index
-    # dat["obs_time"] = dat.groupby("id").cumcount().astype(int) #FIXME: This is not the actual time, but the order of visits. Should we use this or the actual obs_time variable? --- IGNORE ---
-
     formula = (
         "satisfaction ~ obs_time + sex + age_marriage + "
         "cohab + income + hw_all"
@@ -339,7 +336,7 @@ def fit_lme_models(df):
         formula=formula,
         data=dat,
         groups=dat["id"],
-        re_formula="~obs_time",  # adds random slope
+        re_formula="~visit",  # adds random slope
     ).fit(reml=False)
 
     return lme1, lme2
@@ -418,8 +415,8 @@ def question3_pretty(df):
     return table
 
 
-def lme_fit_stats_text(df):
-    lme1, lme2 = fit_lme_models(df)
+def lme_fit_stats_text(lme1, lme2):
+    # lme1, lme2 = fit_lme_models(df)
     return display(Markdown(
     f"""
 *Note:* Fixed effects are presented as estimate (SE) with 95% confidence intervals.  

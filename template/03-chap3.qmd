@@ -1,0 +1,94 @@
+```{python}
+#| include: false
+
+import os
+import sys
+import importlib
+import math
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+
+pd.set_option("display.max_columns", 50)
+pd.set_option("display.float_format", lambda x: f"{x:,.2f}")
+
+sys.path.append(os.path.abspath("../code"))
+
+import analysis
+importlib.reload(analysis)
+df = analysis.load_data()
+```
+
+
+# Part 3: Linear mixed effects (LME) model
+
+> Fit an LME model to assess the association between marital satisfaction and time, including all covariates (do not include statistical interactions terms). Fit two models with different random-effects structures:
+>
+> 1.  LME 1: Random intercepts only
+> 2.  LME 2: Random intercepts and random linear slopes for time
+
+This section used `statsmodels` version 0.14.6 package in a Python environment (version 3.13.1). The LME models were fitted using the `MixedLM` function, using maximum likelihood estimation.
+
+## Question 7
+
+> Present a single table (Table 3) with fixed-effect coefficient estimates, 95\% confidence intervals, and relevant model comparison metrics for both LME models (LME 1 and LME 2). Present only the fixed effects - do not include the random-effects variance components in the table.
+
+@tbl-table3 provides a comparison of the fixed-effect coefficient estimates, 95\% confidence intervals, and model comparison metrics for two LME models with different random-effects structures. LME 1 includes only random intercepts, while LME 2 includes both random intercepts and random slopes for time, allowing for individual variation in both baseline satisfaction and the rate of change in satisfaction over time. Model fit statistcs are provided at the bottom of the table for each model.
+
+Overall, Log-likelihood, AIC and BIC indicate lower values for LME 2 than LME 1.
+
+```{python}
+#| include: false
+
+table3 = analysis.question3_pretty(df)
+```
+
+
+```{python}
+#| label: tbl-table3
+#| tbl-cap: "Comparing covariance matrixes for LME models."
+
+# table3 = analysis.question3_pretty(df)
+table3.style.set_properties(
+    subset=["Variable"],
+    **{"text-align": "left", "font-weight": "bold"}
+).hide(axis="index")
+```
+
+```{python}
+#| include: false
+
+lme1, lme2 = analysis.fit_lme_models(df)
+```
+
+```{python}
+#| results: asis
+analysis.lme_fit_stats_text(lme1, lme2)
+```
+
+## Question 8
+
+> Determine the most appropriate random-effects structure and justify your choice. State which LME (LME 1 or LME 2) is your final model.
+
+LME 1 is the preferred model. LME 2 is a nested version of LME 1, adding random slopes for time. Fixed effect estimates are similar in both models, indicating consistency across models. However, LME 1 has higher log-likelihood and lower AIC and BIC values than LME 2, indicating a better fit to the data. The random slope variance in LME 2 is non-zero, suggesting between-individual variation in time trends, however the model output warns of non-convergence. This model is too complex for the data.\
+
+This result is supported by the spagetti plot (@fig-spaghetti) which showed clear downward individual trajectories over time.
+
+## Question 9
+
+> Compare the estimated effects of the following predictors between your final GEE model (Q5) and your final LME model (Q8):
+>
+> - Time
+> - Premarital cohabitation
+> - Household workload
+
+::: callout-warning
+WHEN KEEPING ALL OTHER COVARIATES THE SAME
+:::
+
+**Time:** In both GEE 1 (AR(1)) and LME 1 (random intercepts) model, the estimated coefficient for time is -0.009 (95\% CI: -0.009 to -0.008). On average, marital satisfaction decreases by 0.009 for every month that the respondent is married. The confidence interval in both models do not include zero, providing strong evidence that time is a significant predictor for marital satisfaction (or dissatisfaction).
+
+**Premarital cohabitation:** In the AR(1) model, the estimated coefficient for premarital cohabitation is 0.260 (95\% CI: -0.060 to 0.580), whereas in the LME 1 model it is 0.218 (95\% CI: -0.090 to 0.526). On average, individuals who cohabited before marriage have slightly higher marital satisfaction compared to those who did not. However, the confidence interval includes zero in both models, indicating no strong evidence of an association between premarital cohabitation and satisfaction.
+
+**Household workload:** In the AR(1) model, the estimated coefficient for household workload is -0.470 (95\% CI: -0.752 to -0.189), whereas in LME 1 it is -0.496 (95\% CI: -0.758 to -0.233). On average, individuals with higher household workloads have lower marital satisfaction compared to those with lower workloads. The confidence interval does not include zero, providing strong evidence of a negative association between household workload and marital satisfaction.
