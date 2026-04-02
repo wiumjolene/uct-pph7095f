@@ -14,9 +14,9 @@ enabling a fully reproducible and transparent analytical workflow.
 
 ## Objectives
 
--   Examine the trajectory of marital satisfaction over time\
--   Evaluate the effect of demographic and relationship variables\
--   Compare alternative model specifications for longitudinal data\
+-   Examine the trajectory of marital satisfaction over time
+-   Evaluate the effect of demographic and relationship variables
+-   Compare alternative model specifications for longitudinal data
 -   Identify the most appropriate correlation structure for repeated
     observations
 
@@ -27,10 +27,10 @@ enabling a fully reproducible and transparent analytical workflow.
 The dataset consists of repeated observations of individuals over time,
 including:
 
--   Marital satisfaction (outcome variable)\
--   Time (months of marriage)\
--   Demographic variables (e.g., sex, age at marriage)\
--   Relationship characteristics (e.g., cohabitation status)\
+-   Marital satisfaction (outcome variable)
+-   Time (months of marriage)
+-   Demographic variables (e.g., sex, age at marriage)
+-   Relationship characteristics (e.g., cohabitation status)
 -   Individual identifier for longitudinal tracking
 
 ------------------------------------------------------------------------
@@ -39,35 +39,35 @@ including:
 
 ### 1. Linear Mixed Effects Models (LME)
 
--   Implemented using Python (statsmodels)\
--   Random intercept models\
--   Random slope models (time varying by individual)\
+-   Implemented using Python (statsmodels)
+-   Random intercept models
+-   Random slope models (time varying by individual)
 -   Model comparison using AIC, BIC, and log-likelihood
 
 ### 2. Generalized Estimating Equations (GEE)
 
--   Implemented using Python (statsmodels)\
--   Exchangeable and AR(1) correlation structures\
--   Robust standard errors\
+-   Implemented using Python (statsmodels)
+-   Exchangeable and AR(1) correlation structures
+-   Robust standard errors
 -   Population-averaged interpretation
 
 ------------------------------------------------------------------------
 
 ## Tools & Technologies
 
--   Python (pandas, numpy, statsmodels, scipy, matplotlib)\
--   Quarto for reproducible reporting\
--   Markdown and LaTeX for document formatting\
+-   Python (pandas, numpy, statsmodels, scipy, matplotlib)
+-   Quarto for reproducible reporting
+-   Markdown and LaTeX for document formatting
 -   Version-controlled workflow for reproducibility
 
 ------------------------------------------------------------------------
 
 ## Key Findings
 
--   Marital satisfaction shows a consistent decline over time\
--   Time is a statistically significant predictor of satisfaction\
+-   Marital satisfaction shows a consistent decline over time
+-   Time is a statistically significant predictor of satisfaction
 -   More complex random-effects structures did not improve model fit due
-    to convergence issues\
+    to convergence issues
 -   Simpler models provided more stable and interpretable results
 
 ------------------------------------------------------------------------
@@ -75,8 +75,8 @@ including:
 ## Model Selection
 
 The preferred model was selected based on: - Goodness-of-fit statistics
-(AIC, BIC, log-likelihood)\
-- Model convergence\
+(AIC, BIC, log-likelihood)
+- Model convergence
 - Interpretability of parameters
 
 ------------------------------------------------------------------------
@@ -106,9 +106,9 @@ To render alternative formats:
 
 ## Notes
 
--   Longitudinal structure was carefully accounted for in all models\
+-   Longitudinal structure was carefully accounted for in all models
 -   Model convergence was considered in selecting the final
-    specification\
+    specification
 -   Results should be interpreted as average trends over time
 
 ------------------------------------------------------------------------
