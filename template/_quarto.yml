@@ -49,7 +49,8 @@ format:
     number-sections: false
     fontsize: 11pt
     linestretch: 1.1
-  # monashthesis-html: default
+  monashthesis-html: default
+  # markdown: default
 
 execute:
   echo: false
