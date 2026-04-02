@@ -1,0 +1,12 @@
+{
+  "hash": "553f7762dba123a7c666fe6a469cd375",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "\n# Part 4: Model validation\n\n## Question 10\n\n> Present two residual diagnostic plots for your final LME model (Figures 3 and 4). One plot should depict the residuals, while the other plot should be related to the random effects. Do these plots look reasonable? Briefly discuss in two to three sentences whether the model assumptions appear to be satisfied.\n\n@fig-residuals illustrate the residuals plot for the final LME model (LME 1). The plot shows a random scatter of residuals around zero, approximately symmetrically distributed. This suggests that the assumption of homoscedasticity is satisfied. a small number of outliers and slight variation in spread are observed at higher fitted values, these are not substantial enough to suggest an incorrectly defined model.\n\n\n::: {#cell-fig-residuals .cell execution_count=3}\n\n::: {.cell-output .cell-output-display}\n![Residuals Plot for Final LME Model.](04-chap4_files/figure-html/fig-residuals-output-1.png){#fig-residuals width=566 height=374}\n:::\n:::\n\n\n@fig-qqplot shows the QQ plot of the random intercepts for the final LME model (LME 1). The points approximately follow the reference line, suggesting that the random intercepts are approximately normally distributed. Some deviation from normality is observed at the tails.\n\n::: {#cell-fig-qqplot .cell execution_count=4}\n\n::: {.cell-output .cell-output-display}\n![QQ Plot of Residuals for Final LME Model.](04-chap4_files/figure-html/fig-qqplot-output-1.png){#fig-qqplot width=566 height=374}\n:::\n:::\n\n\n",
+    "supporting": [
+      "04-chap4_files\\figure-html"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

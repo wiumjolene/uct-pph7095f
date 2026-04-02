@@ -1,0 +1,23 @@
+{
+  "index.qmd": {
+    "index.html": "3bf5bd4b",
+    "index.tex": "63507b78",
+    "index.md": "159de08f"
+  },
+  "01-chap1.qmd": {
+    "01-chap1.html": "5a7d1899"
+  },
+  "02-chap2.qmd": {
+    "02-chap2.html": "b817bead"
+  },
+  "03-chap3.qmd": {
+    "03-chap3.html": "06680b3f"
+  },
+  "04-chap4.qmd": {
+    "04-chap4.html": "ab3c1542"
+  },
+  "WMXJOL001.qmd": {
+    "WMXJOL001.tex": "2f1d4d8e",
+    "WMXJOL001.html": "2f0a8fce"
+  }
+}
