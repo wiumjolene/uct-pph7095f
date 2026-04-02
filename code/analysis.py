@@ -180,7 +180,7 @@ def plot_mean_profile(df, n_bins=20):
             alpha=0.2,
         )
 
-    ax.set_xlabel("Time")
+    ax.set_xlabel("Time (Months since marriage)")
     ax.set_ylabel("Mean satisfaction")
     ax.set_title("Mean longitudinal profile of satisfaction by household workload")
     ax.legend(title="Household workload")
@@ -214,8 +214,14 @@ def plot_spaghetti(df):
                 linewidth=1
             )
 
-        axes[i].set_title(f"Cohab: {cohab_value}")
-        axes[i].set_xlabel("Time")
+        if cohab_value == 0:
+            cohab_label = "No premarital cohabitation"
+        else:            
+            cohab_label = "Premarital cohabitation"
+
+        # axes[i].set_title(f"Cohabitate: {cohab_value}")
+        axes[i].set_title(f"{cohab_label}")
+        axes[i].set_xlabel("Time (Months since marriage)")
 
     axes[0].set_ylabel("Satisfaction")
 
@@ -298,7 +304,7 @@ def question2_pretty(df):
     # Rename variables
     rename_map = {
         "Intercept": "Intercept",
-        "sex[T.male]": "Male (vs Female)",
+        "sex[T.Male]": "Male (vs Female)",
         "obs_time": "Time",
         "age_marriage": "Age at marriage",
         "cohab": "Premarital cohabitation",
@@ -336,7 +342,7 @@ def fit_lme_models(df):
         formula=formula,
         data=dat,
         groups=dat["id"],
-        re_formula="~visit",  # adds random slope
+        re_formula="~visit",  # add random slope
     ).fit(reml=False)
 
     return lme1, lme2
@@ -382,7 +388,7 @@ def question3_pretty(df):
 
     rename_map = {
         "Intercept": "Intercept",
-        "sex[T.male]": "Male (vs Female)",
+        "sex[T.Male]": "Male (vs Female)",
         "time_index": "Time",
         "obs_time": "Time",
         "age_marriage": "Age at marriage",
@@ -392,25 +398,6 @@ def question3_pretty(df):
     }
 
     table["Variable"] = table["Variable"].replace(rename_map)
-
-    # fit_rows = pd.DataFrame({
-    #     ("Variable", ""): ["AIC", "BIC", "Log-likelihood"],
-    #     ("LME 1: Random intercept", "Estimate (SE)"): [
-    #         f"{lme1.aic:.2f}",
-    #         f"{lme1.bic:.2f}",
-    #         f"{lme1.llf:.2f}",
-    #     ],
-    #     ("LME 1: Random intercept", "95% CI"): ["", "", ""],
-    #     ("LME 2: Random intercept + slope", "Estimate (SE)"): [
-    #         f"{lme2.aic:.2f}",
-    #         f"{lme2.bic:.2f}",
-    #         f"{lme2.llf:.2f}",
-    #     ],
-    #     ("LME 2: Random intercept + slope", "95% CI"): ["", "", ""],
-    # })
-
-    # table.columns = pd.MultiIndex.from_tuples(table.columns)
-    # table = pd.concat([table, fit_rows], ignore_index=True)
 
     return table
 
@@ -451,7 +438,6 @@ def plot_random_effects(model):
     # Extract random intercepts
     re = pd.DataFrame(model.random_effects).T
 
-    # If random slope model → intercept is first column
     intercepts = re.iloc[:, 0]
 
     fig = plt.figure(figsize=(6, 4))

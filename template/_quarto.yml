@@ -1,36 +1,57 @@
-project:
-  type: book
+# project:
+#   type: book
 
-book:
-  title: "PPH7095F - WMXJOL001"
-  author: "Jolene Wium"
-  date: today
-  chapters:
-    - text: "Front matter"
-      file: index.qmd
-    - "01-chap1.qmd"
-    - "02-chap2.qmd"
-    - "03-chap3.qmd"
-    - "04-chap4.qmd"
-    # - "refs.qmd"
-  sidebar:
-    style: "docked"
+# book:
+#   title: "PPH7095F - WMXJOL001"
+#   author: "Jolene Wium"
+#   date: today
+#   chapters:
+#     - text: "Front matter"
+#       file: index.qmd
+#     - "01-chap1.qmd"
+#     - "02-chap2.qmd"
+#     - "03-chap3.qmd"
+#     - "04-chap4.qmd"
+#     # - "refs.qmd"
+#   sidebar:
+#     style: "docked"
+
+# bibliography: thesisrefs.bib
+# csl: american-statistical-association.csl
+
+# submitted: 2026
+
+# format:
+#   monashthesis-html: default
+#   monashthesis-pdf: default
+
+# execute:
+#   echo: false
+
+# jupyter: python3
+
+
+
+
+project:
+  type: default
+
+title: "PPH7095F - WMXJOL001"
+author: "Jolene Wium"
+date: today
 
 bibliography: thesisrefs.bib
 csl: american-statistical-association.csl
-# degreetype: Msc (Biostatistics and Epidemiology)
-submitted: 2026
-# affiliation: Department of Econometrics & Business Statistics
-# degrees: ''
 
 format:
-  monashthesis-html: default
-  monashthesis-pdf: default
+  monashthesis-pdf:
+    toc: true
+    number-sections: false
+    fontsize: 11pt
+    linestretch: 1.1
+  # monashthesis-html: default
 
 execute:
   echo: false
-  # warning: false
-  # message: false
-  # freeze: false
-jupyter: python3
 
+jupyter: python3
